@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-division-body",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dividirBody.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
