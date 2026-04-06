@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-multiplicacion-query",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "multiplicarQuery.js",
+  "scripts": {
+    "start": "node multiplicarQuery.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
