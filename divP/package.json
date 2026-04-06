@@ -2,7 +2,7 @@
   "name": "microservicio-calculadora-division-path",
   "version": "1.0.0",
   "description": "Microservicio de calculadora",
-  "main": "index.js",
+  "main": "dividirPath.js",
   "scripts": {
     "start": "node dividirPath.js"
   },
