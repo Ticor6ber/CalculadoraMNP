@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microservicio Calculadora</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1b2a;
+    --surface: #112240;
+    --surface2: #1a2f52;
+    --border: rgba(100,160,255,0.12);
+    --accent: #ff6b35;
+    --accent-dim: rgba(255,107,53,0.13);
+    --text: #e8edf5;
+    --text-muted: #6b8aad;
+    --btn-bg: #1a2f52;
+    --btn-hover: #213660;
+    --op-bg: #1e2e4a;
+    --op-text: #ff6b35;
+    --radius: 12px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .wrapper { width: 100%; max-width: 400px; }
+
+  .title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .method-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .method-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 1.25rem;
+    padding: 6px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .method-tab {
+    padding: 9px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.18s ease;
+  }
+  .method-tab:hover { color: var(--text); background: var(--surface2); }
+  .method-tab.active { background: var(--accent); color: #fff; font-weight: 700; }
+
+  .display {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .display-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .display-field { flex: 1; overflow: hidden; }
+  .display-field-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 2px;
+  }
+  .display-field-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    min-height: 34px;
+    letter-spacing: -1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .display-op {
+    font-family: 'Space Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    padding-bottom: 2px;
+    min-width: 22px;
+    text-align: center;
+    transition: transform 0.1s ease;
+  }
+
+  .display-result {
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .result-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .result-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .input-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+  }
+  .ind-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+  .ind-dot.active { background: var(--accent); }
+  .ind-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .key {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--btn-bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 0;
+    height: 58px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .key:hover { background: var(--btn-hover); border-color: rgba(255,255,255,0.12); }
+  .key:active { transform: scale(0.93); }
+
+  .key-op {
+    background: var(--op-bg);
+    color: var(--op-text);
+    border-color: rgba(200,241,53,0.15);
+    font-size: 22px;
+  }
+  .key-op:hover { background: rgba(200,241,53,0.18); }
+  .key-op.selected {
+    background: var(--accent);
+    color: #fff;
+    border-color: transparent;
+  }
+  .key-op.selected:hover { background: #ff8450; }
+
+  .key-util {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .key-util:hover { color: var(--text); background: #2e2e38; }
+
+  .key-clear {
+    background: rgba(255,100,100,0.08);
+    color: #ff7b7b;
+    border-color: rgba(255,100,100,0.18);
+    font-size: 14px;
+  }
+  .key-clear:hover { background: rgba(255,100,100,0.18); }
+
+  .key-action {
+    background: var(--accent);
+    color: #fff;
+    border-color: transparent;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .key-action:hover { background: #ff8450; }
+
+  .key-wide { grid-column: span 2; }
+
+  @keyframes flash {
+    0% { background: var(--accent-dim); }
+    100% { background: var(--surface); }
+  }
+  .flash { animation: flash 0.4s ease-out; }
+
+  @keyframes popOp {
+    0% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+  .pop { animation: popOp 0.15s ease-out; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="title">Microservicio Calculadora</div>
+
+  <div class="method-label">Método de envío</div>
+  <div class="method-tabs">
+    <button class="method-tab active" data-method="path" onclick="setMethod('path')">Path</button>
+    <button class="method-tab" data-method="query" onclick="setMethod('query')">Query</button>
+    <button class="method-tab" data-method="body" onclick="setMethod('body')">Body</button>
+  </div>
+
+  <div class="display" id="display">
+    <div class="display-inputs">
+      <div class="display-field">
+        <div class="display-field-label">A</div>
+        <div class="display-field-val" id="valA">_</div>
+      </div>
+      <div class="display-op" id="opSymbol">+</div>
+      <div class="display-field">
+        <div class="display-field-label">B</div>
+        <div class="display-field-val" id="valB">0</div>
+      </div>
+    </div>
+    <div class="display-result">
+      <span class="result-label">= </span>
+      <span class="result-val" id="resultado">—</span>
+    </div>
+  </div>
+
+  <div class="input-indicator">
+    <div class="ind-dot active" id="dot-a"></div>
+    <div class="ind-dot" id="dot-b"></div>
+    <span class="ind-label" id="ind-text">Ingresando A</span>
+  </div>
+
+  <div class="keypad">
+    <!-- Fila 1 -->
+    <button class="key" onclick="pressKey('7')">7</button>
+    <button class="key" onclick="pressKey('8')">8</button>
+    <button class="key" onclick="pressKey('9')">9</button>
+    <button class="key key-clear" onclick="clearAll()">AC</button>
+
+    <!-- Fila 2 -->
+    <button class="key" onclick="pressKey('4')">4</button>
+    <button class="key" onclick="pressKey('5')">5</button>
+    <button class="key" onclick="pressKey('6')">6</button>
+    <button class="key key-util" onclick="backspace()">⌫</button>
+
+    <!-- Fila 3 -->
+    <button class="key" onclick="pressKey('1')">1</button>
+    <button class="key" onclick="pressKey('2')">2</button>
+    <button class="key" onclick="pressKey('3')">3</button>
+    <button class="key key-util" onclick="toggleSign()">±</button>
+
+    <!-- Fila 4 -->
+    <button class="key" onclick="pressKey('0')">0</button>
+    <button class="key" onclick="pressKey('.')">.</button>
+    <button class="key key-util key-wide" style="font-size:12px;" onclick="switchInput()">A ↔ B</button>
+
+    <!-- Fila 5: operaciones -->
+    <button class="key key-op selected" id="op-suma"  onclick="setOp('+')">+</button>
+    <button class="key key-op"          id="op-resta" onclick="setOp('-')">−</button>
+    <button class="key key-op"          id="op-multi" onclick="setOp('*')">×</button>
+    <button class="key key-op"          id="op-div"   onclick="setOp('/')">÷</button>
+
+    <!-- Fila 6: ejecutar -->
+    <button class="key key-action key-wide" onclick="ejecutar()">=</button>
+    <button class="key key-util key-wide" style="font-size:11px;" onclick="ejecutar()">Ejecutar servicio</button>
+  </div>
+</div>
+
+<script src="funcionalidad.js" onerror="void(0)"></script>
+<script>
+  let metodo = 'path';
+  let inputActivo = 'a';
+  let valA = '';
+  let valB = '';
+  let operacion = '+';
+
+  const opMap     = { '+': 'op-suma', '-': 'op-resta', '*': 'op-multi', '/': 'op-div' };
+  const opDisplay = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+
+  function setMethod(m) {
+    metodo = m;
+    document.querySelectorAll('.method-tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.method === m));
+  }
+
+  function setOp(op) {
+    operacion = op;
+    Object.keys(opMap).forEach(k =>
+      document.getElementById(opMap[k]).classList.toggle('selected', k === op));
+    const sym = document.getElementById('opSymbol');
+    sym.textContent = opDisplay[op];
+    sym.classList.remove('pop');
+    void sym.offsetWidth;
+    sym.classList.add('pop');
+  }
+
+  function updateDisplay() {
+    document.getElementById('valA').textContent = valA === '' ? (inputActivo === 'a' ? '_' : '0') : valA;
+    document.getElementById('valB').textContent = valB === '' ? (inputActivo === 'b' ? '_' : '0') : valB;
+    document.getElementById('dot-a').classList.toggle('active', inputActivo === 'a');
+    document.getElementById('dot-b').classList.toggle('active', inputActivo === 'b');
+    document.getElementById('ind-text').textContent = inputActivo === 'a' ? 'Ingresando A' : 'Ingresando B';
+  }
+
+  function pressKey(k) {
+    let v = inputActivo === 'a' ? valA : valB;
+    if (k === '.' && v.includes('.')) return;
+    if (v.replace('-', '').length >= 12) return;
+    v += k;
+    if (inputActivo === 'a') valA = v; else valB = v;
+    updateDisplay();
+  }
+
+  function toggleSign() {
+    if (inputActivo === 'a') {
+      valA = valA.startsWith('-') ? valA.slice(1) : (valA ? '-' + valA : '-');
+    } else {
+      valB = valB.startsWith('-') ? valB.slice(1) : (valB ? '-' + valB : '-');
+    }
+    updateDisplay();
+  }
+
+  function backspace() {
+    if (inputActivo === 'a') valA = valA.slice(0, -1);
+    else valB = valB.slice(0, -1);
+    updateDisplay();
+  }
+
+  function clearAll() {
+    valA = ''; valB = '';
+    inputActivo = 'a';
+    const el = document.getElementById('resultado');
+    el.textContent = '—';
+    el.style.color = 'var(--accent)';
+    updateDisplay();
+  }
+
+  function switchInput() {
+    inputActivo = inputActivo === 'a' ? 'b' : 'a';
+    updateDisplay();
+  }
+
+  function calcularLocal(a, b, op) {
+    switch (op) {
+      case '+': return a + b;
+      case '-': return a - b;
+      case '*': return a * b;
+      case '/': return b === 0 ? null : a / b;
+    }
+  }
+
+  function ejecutar() {
+    const a = parseFloat(valA) || 0;
+    const b = parseFloat(valB) || 0;
+    const el = document.getElementById('resultado');
+    const display = document.getElementById('display');
+
+    const hA = document.getElementById('numA');
+    const hB = document.getElementById('numB');
+    if (hA) hA.value = a;
+    if (hB) hB.value = b;
+
+    // Mapeo de funciones del microservicio
+    const fnNames = {
+      '+': { path: 'sumaPath',   query: 'sumaQuery',   body: 'sumaBody'   },
+      '-': { path: 'restaPath',  query: 'restaQuery',  body: 'restaBody'  },
+      '*': { path: 'multiPath',  query: 'multiQuery',  body: 'multiBody'  },
+      '/': { path: 'divPath',    query: 'divQuery',    body: 'divBody'    },
+    };
+    const fnName = fnNames[operacion]?.[metodo];
+
+    if (fnName && typeof window[fnName] === 'function') {
+      window[fnName]();
+    } else {
+      const res = calcularLocal(a, b, operacion);
+      el.style.color = res === null ? '#ff6b6b' : 'var(--accent)';
+      if (res === null) {
+        el.textContent = 'Error: div / 0';
+      } else {
+        el.textContent = Number.isInteger(res) ? res : parseFloat(res.toFixed(8));
+      }
+    }
+
+    display.classList.remove('flash');
+    void display.offsetWidth;
+    display.classList.add('flash');
+
+    if (inputActivo === 'a') { inputActivo = 'b'; updateDisplay(); }
+  }
+
+  window.mostrarResultado = function(val) {
+    document.getElementById('resultado').textContent = val;
+  };
+
+  updateDisplay();
+
+  document.addEventListener('keydown', e => {
+    if (e.key >= '0' && e.key <= '9') pressKey(e.key);
+    else if (e.key === '.') pressKey('.');
+    else if (e.key === '+') setOp('+');
+    else if (e.key === '-') setOp('-');
+    else if (e.key === '*') setOp('*');
+    else if (e.key === '/') { e.preventDefault(); setOp('/'); }
+    else if (e.key === 'Backspace') backspace();
+    else if (e.key === 'Tab') { e.preventDefault(); switchInput(); }
+    else if (e.key === 'Enter' || e.key === '=') ejecutar();
+    else if (e.key === 'Escape') clearAll();
+  });
+</script>
+
+<input type="hidden" id="numA">
+<input type="hidden" id="numB">
+
+</body>
+</html>
