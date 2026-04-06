@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-resta-path",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "restaPath.js",
+  "scripts": {
+    "start": "node restaPath.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
