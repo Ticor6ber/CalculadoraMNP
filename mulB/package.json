@@ -2,7 +2,7 @@
   "name": "microservicio-calculadora-multiplicacion-body",
   "version": "1.0.0",
   "description": "Microservicio de calculadora",
-  "main": "index.js",
+  "main": "multiplicarBody.js",
   "scripts": {
     "start": "node multiplicarBody.js"
   },
