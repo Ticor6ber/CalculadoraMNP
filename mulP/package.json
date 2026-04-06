@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-multiplicacion-path",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "index.js",
+  "scripts": {
+    "start": "node multiplicarPath.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
