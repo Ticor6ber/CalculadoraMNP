@@ -2,7 +2,7 @@
   "name": "microservicio-calculadora-division-body",
   "version": "1.0.0",
   "description": "Microservicio de calculadora",
-  "main": "index.js",
+  "main": "dividirBody.js",
   "scripts": {
     "start": "node dividirBody.js"
   },
