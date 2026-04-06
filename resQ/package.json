@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-resta-query",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "restaQuery.js",
+  "scripts": {
+    "start": "node restaQuery.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
