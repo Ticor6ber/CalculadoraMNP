@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-resta-body",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "restaBody.js",
+  "scripts": {
+    "start": "node restaBody.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
