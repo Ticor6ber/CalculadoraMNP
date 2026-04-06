@@ -34,7 +34,7 @@ function getAB() {
 
 function sumaPath() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.suma.path}/sumar/${n1}/${n2}`)
+  fetch(`https://sump-qrha.onrender.com/sumar/${n1}/${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Suma / Path'));
@@ -42,7 +42,7 @@ function sumaPath() {
 
 function sumaQuery() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.suma.query}/sumar?a=${n1}&b=${n2}`)
+  fetch(`https://sumq-dvuf.onrender.com/sumar?a=${n1}&b=${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Suma / Query'));
@@ -50,7 +50,7 @@ function sumaQuery() {
 
 function sumaBody() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.suma.body}/sumar`, {
+  fetch(`https://sumb.onrender.com/sumar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ a: n1, b: n2 }),
@@ -66,7 +66,7 @@ function sumaBody() {
 
 function restaPath() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.resta.path}/restar/${n1}/${n2}`)
+  fetch(`https://resp-gmbs.onrender.com/restar/${n1}/${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Resta / Path'));
@@ -74,7 +74,7 @@ function restaPath() {
 
 function restaQuery() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.resta.query}/restar?a=${n1}&b=${n2}`)
+  fetch(`https://resq-fisd.onrender.com/restar?a=${n1}&b=${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Resta / Query'));
@@ -82,7 +82,7 @@ function restaQuery() {
 
 function restaBody() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.resta.body}/restar`, {
+  fetch(`https://resb.onrender.com/restar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ a: n1, b: n2 }),
@@ -98,7 +98,7 @@ function restaBody() {
 
 function multiPath() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.multi.path}/multiplicar/${n1}/${n2}`)
+  fetch(`https://mulp.onrender.com/multiplicar/${n1}/${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Multi / Path'));
@@ -106,7 +106,7 @@ function multiPath() {
 
 function multiQuery() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.multi.query}/multiplicar?a=${n1}&b=${n2}`)
+  fetch(`https://mulq.onrender.com/multiplicar?a=${n1}&b=${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Multi / Query'));
@@ -114,7 +114,7 @@ function multiQuery() {
 
 function multiBody() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.multi.body}/multiplicar`, {
+  fetch(`https://mulb.onrender.com/multiplicar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ a: n1, b: n2 }),
@@ -130,7 +130,7 @@ function multiBody() {
 
 function divPath() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.div.path}/dividir/${n1}/${n2}`)
+  fetch(`https://divp.onrender.com/dividir/${n1}/${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Div / Path'));
@@ -138,7 +138,7 @@ function divPath() {
 
 function divQuery() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.div.query}/dividir?a=${n1}&b=${n2}`)
+  fetch(`https://divq.onrender.com/dividir?a=${n1}&b=${n2}`)
     .then(res => res.json())
     .then(data => mostrarResultado(data.resultado))
     .catch(() => mostrarError('Error: microservicio Div / Query'));
@@ -146,7 +146,7 @@ function divQuery() {
 
 function divBody() {
   const { n1, n2 } = getAB();
-  fetch(`http://127.0.0.1:${PUERTOS.div.body}/dividir`, {
+  fetch(`https://divb.onrender.com/dividir`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ a: n1, b: n2 }),
