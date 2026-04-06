@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-suma-body",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "sumaBody.js",
+  "scripts": {
+    "start": "node sumaBody.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
