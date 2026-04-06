@@ -1,0 +1,12 @@
+{
+  "name": "microservicio-calculadora-suma-path",
+  "version": "1.0.0",
+  "description": "Microservicio de calculadora",
+  "main": "sumaPath.js",
+  "scripts": {
+    "start": "node sumaPath.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
