@@ -2,7 +2,7 @@
   "name": "microservicio-calculadora-division-query",
   "version": "1.0.0",
   "description": "Microservicio de calculadora",
-  "main": "index.js",
+  "main": "dividirQuery.js",
   "scripts": {
     "start": "node dividirQuery.js"
   },
